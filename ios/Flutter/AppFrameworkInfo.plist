@@ -22,5 +22,9 @@
   <string>1.0</string>
   <key>MinimumOSVersion</key>
   <string>9.0</string>
+  <key>NSCameraUsageDescription</key>
+  <string>Can I use the camera please?</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Can I use the mic please?</string>
 </dict>
 </plist>

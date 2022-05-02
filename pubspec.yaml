@@ -35,6 +35,16 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   google_fonts: ^2.3.2
+  material_design_icons_flutter: ^5.0.6595
+  eva_icons_flutter: ^3.1.0
+  flutter_svg: ^1.0.3
+  shared_preferences: ^2.0.13
+  provider: ^6.0.2
+  modal_bottom_sheet: ^2.0.1
+  image_picker: ^0.8.5
+  google_sign_in: ^5.3.0
+  firebase_auth: ^3.3.16
+  adaptive_scrollbar: ^2.1.2
 
 dev_dependencies:
   flutter_test:
@@ -59,9 +69,24 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - instagram_logo.png
+    - default_image.png
+    - avatar.jpeg
+    - me.jpg
   #   - images/a_dot_ham.jpeg
+    - assets/images/photo1.jpg
+    - assets/images/photo2.jpg
+    - assets/images/photo3.jpg
+    - assets/images/photo4.jpg
+    - assets/images/photo5.jpg
+    - assets/images/photo6.jpg
+    - assets/images/photo7.jpg
+    - assets/images/photo8.jpg
+    - assets/images/photo9.jpg
+    - assets/images/photo10.jpg
+    - assets/images/photo11.jpg
+    - assets/images/photo12.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
