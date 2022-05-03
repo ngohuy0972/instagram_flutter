@@ -59,36 +59,43 @@ class _storyWidgetState extends State<storyWidget> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          margin: EdgeInsets.only(left: 10.0),
+          margin: const EdgeInsets.only(left: 10.0),
           height: 80,
           child: Row(
             children: <Widget>[
-              const Expanded(
-                  flex: 1,
+              Expanded(
+                  flex: 2,
                   child: Card(
-                    elevation: 0,
-                    color: Colors.transparent,
-                    child: CircleAvatar(
-                      radius: 27.0,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 25.0,
-                        child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: CircleAvatar(
+                      elevation: 0,
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => {print('Add new story')},
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const <Widget>[
+                            CircleAvatar(
+                              radius: 27.0,
                               backgroundColor: Colors.blue,
-                              radius: 10.0,
-                              child: Icon(
-                                EvaIcons.plus,
-                                size: 15.0,
-                                color: Colors.white,
+                              child: CircleAvatar(
+                                radius: 25.0,
+                                child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.blue,
+                                      radius: 10.0,
+                                      child: Icon(
+                                        EvaIcons.plus,
+                                        size: 15.0,
+                                        color: Colors.white,
+                                      ),
+                                    )),
+                                backgroundColor: Colors.black,
+                                backgroundImage: AssetImage('me.jpg'),
                               ),
-                            )),
-                        backgroundColor: Colors.black,
-                        backgroundImage: AssetImage('me.jpg'),
-                      ),
-                    ),
-                  )),
+                            ),
+                          ],
+                        ),
+                      ))),
               Expanded(
                   flex: 8,
                   child: ListView.builder(

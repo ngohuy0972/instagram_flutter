@@ -45,6 +45,7 @@ dependencies:
   google_sign_in: ^5.3.0
   firebase_auth: ^3.3.16
   adaptive_scrollbar: ^2.1.2
+  firebase_core: ^1.15.0
 
 dev_dependencies:
   flutter_test:
