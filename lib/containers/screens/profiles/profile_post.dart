@@ -64,12 +64,15 @@ class _ProfilePostState extends State<ProfilePost> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: SafeArea(
-          child: GridView.count(
-        children: itemsProfile,
-        crossAxisCount: 3,
-      )),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+            child: GridView.count(
+          children: itemsProfile,
+          crossAxisCount: 3,
+        )),
+      ),
     );
   }
 }

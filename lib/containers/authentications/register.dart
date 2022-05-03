@@ -1,13 +1,71 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_flutter/containers/authentications/login.dart';
 import 'package:instagram_flutter/navigation_widget/bottom_nav.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
+
+  @override
+  _RegisterState createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  // create a new user
+  Future<User?> registerUsingEmailPassword(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+    try {
+      UserCredential userRegister = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      user = userRegister.user;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void successDialog() {
+    const alert = CupertinoAlertDialog(
+      title: Text("Register"),
+      content: Text("Sign up successfully"),
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void failedDialog() {
+    const alert = CupertinoAlertDialog(
+      title: Text("Register"),
+      content: Text("Sign up failed"),
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    // create the textfield controller
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
+
     return Material(
         child: Container(
             margin: const EdgeInsets.all(20.0), // Or set whatever you want
@@ -26,16 +84,17 @@ class RegisterScreen extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           TextFormField(
-                            //  margin: new EdgeInsets.all(15.0),
+                            controller: _emailController,
                             decoration: const InputDecoration(
                                 hintText: 'Email Address'),
                             keyboardType: TextInputType.emailAddress,
                             maxLength: 50,
                           ),
                           TextFormField(
+                            controller: _passwordController,
                             decoration:
                                 const InputDecoration(hintText: 'Password'),
-                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: true,
                             maxLength: 20,
                           ),
                         ],
@@ -48,12 +107,21 @@ class RegisterScreen extends StatelessWidget {
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   minimumSize: const Size.fromHeight(50)),
-                              onPressed: () => {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MyStatefulWidget()))
+                              onPressed: () async {
+                                User? user = await registerUsingEmailPassword(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    context: context);
+                                if (user != null) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MyStatefulWidget()));
+                                  successDialog();
+                                } else {
+                                  failedDialog();
+                                }
                               },
                               child: const Text(
                                 'Sign Up',
@@ -69,8 +137,7 @@ class RegisterScreen extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginScreen()))
+                                        builder: (context) => const Login()))
                               },
                               child: const Text(
                                 'Sign In',
@@ -80,7 +147,7 @@ class RegisterScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w500),
                               ),
                             )
-                          ]))
+                          ])),
                 ],
               ),
             )));
