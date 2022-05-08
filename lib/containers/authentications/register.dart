@@ -27,6 +27,7 @@ class _RegisterState extends State<Register> {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
+        failedDialog();
         print('The account already exists for that email.');
       }
     } catch (e) {
@@ -50,7 +51,7 @@ class _RegisterState extends State<Register> {
   void failedDialog() {
     const alert = CupertinoAlertDialog(
       title: Text("Register"),
-      content: Text("Sign up failed"),
+      content: Text("The account already exists for that email."),
     );
     showDialog(
       context: context,
@@ -62,94 +63,161 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     // create the textfield controller
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
+    TextEditingController _passwordConfirmationController =
+        TextEditingController();
+
+    var logoLogin = Expanded(
+        flex: 2,
+        child: Image.asset(
+          'instagram_logo.png',
+          width: 200,
+          fit: BoxFit.contain,
+        ));
+
+    var inputComponent = Expanded(
+        flex: 4,
+        child: Column(
+          children: <Widget>[
+            TextFormField(
+              controller: _emailController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "You can't have an empty email!";
+                }
+
+                if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                  return "Please enter a valid email address";
+                }
+
+                if (value.length > 50) {
+                  return "Email does not exceed 50 characters!";
+                }
+              },
+              decoration: const InputDecoration(labelText: 'Email Address'),
+              keyboardType: TextInputType.emailAddress,
+              maxLength: 50,
+            ),
+            TextFormField(
+              controller: _passwordController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "You can't have an empty password!";
+                }
+
+                if (!RegExp(
+                        r'(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9_])')
+                    .hasMatch(value)) {
+                  return "Password includes uppercases, special characters";
+                }
+
+                if (value.length < 6) {
+                  return "Password must be least 6 characters";
+                }
+
+                if (value.length > 20) {
+                  return "Password does not exceed 20 characters!";
+                }
+              },
+              decoration: const InputDecoration(labelText: 'Password'),
+              obscureText: true,
+              maxLength: 20,
+            ),
+            TextFormField(
+              controller: _passwordConfirmationController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "You can't have an empty password confirmation!";
+                }
+
+                if (!RegExp(
+                        r'(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9_])')
+                    .hasMatch(value)) {
+                  return "Password includes uppercases, special characters";
+                }
+
+                if (value.length < 6) {
+                  return "Password must be least 6 characters";
+                }
+
+                if (value.length > 20) {
+                  return "Password does not exceed 20 characters!";
+                }
+
+                if (_passwordController != _passwordConfirmationController) {
+                  return "Password does not match!";
+                }
+              },
+              decoration:
+                  const InputDecoration(labelText: 'Password Confirmation'),
+              obscureText: true,
+              maxLength: 20,
+            ),
+          ],
+        ));
+
+    var buttonSubmit = Expanded(
+        flex: 4,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50)),
+            onPressed: () async {
+              _formKey.currentState!.validate();
+              User? user = await registerUsingEmailPassword(
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                  context: context);
+              if (user != null) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyStatefulWidget()));
+                Future.delayed(const Duration(milliseconds: 1000), () {
+                  successDialog();
+                });
+              } else {
+                // failedDialog();
+              }
+            },
+            child: const Text(
+              'Sign Up',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+            ),
+          ),
+          TextButton(
+            style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50)),
+            onPressed: () => {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Login()))
+            },
+            child: const Text(
+              'Sign In',
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
+            ),
+          )
+        ]));
 
     return Material(
         child: Container(
             margin: const EdgeInsets.all(20.0), // Or set whatever you want
             child: SafeArea(
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                      flex: 3,
-                      child: Image.asset(
-                        'instagram_logo.png',
-                        width: 200,
-                        fit: BoxFit.contain,
-                      )),
-                  Expanded(
-                      flex: 3,
-                      child: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            controller: _emailController,
-                            decoration: const InputDecoration(
-                                hintText: 'Email Address'),
-                            keyboardType: TextInputType.emailAddress,
-                            maxLength: 50,
-                          ),
-                          TextFormField(
-                            controller: _passwordController,
-                            decoration:
-                                const InputDecoration(hintText: 'Password'),
-                            obscureText: true,
-                            maxLength: 20,
-                          ),
-                        ],
-                      )),
-                  Expanded(
-                      flex: 4,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size.fromHeight(50)),
-                              onPressed: () async {
-                                User? user = await registerUsingEmailPassword(
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                    context: context);
-                                if (user != null) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const MyStatefulWidget()));
-                                  successDialog();
-                                } else {
-                                  failedDialog();
-                                }
-                              },
-                              child: const Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ),
-                            TextButton(
-                              style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size.fromHeight(50)),
-                              onPressed: () => {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Login()))
-                              },
-                              child: const Text(
-                                'Sign In',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            )
-                          ])),
-                ],
-              ),
+              child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      logoLogin,
+                      inputComponent,
+                      buttonSubmit,
+                    ],
+                  )),
             )));
   }
 }
