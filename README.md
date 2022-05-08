@@ -1,7 +1,5 @@
 # instagram_flutter
-
-A new Flutter project.
-
+The instagram app build by Flutter platform (Author Huy Ngo)
 ## Getting Started
 
 This project is a starting point for a Flutter application.
