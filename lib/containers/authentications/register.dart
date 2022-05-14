@@ -147,7 +147,7 @@ class _RegisterState extends State<Register> {
                   return "Password does not exceed 20 characters!";
                 }
 
-                if (_passwordController != _passwordConfirmationController) {
+                if (value != _passwordController.text) {
                   return "Password does not match!";
                 }
               },
@@ -171,17 +171,13 @@ class _RegisterState extends State<Register> {
                   email: _emailController.text,
                   password: _passwordController.text,
                   context: context);
-              if (user != null) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const MyStatefulWidget()));
-                Future.delayed(const Duration(milliseconds: 1000), () {
-                  successDialog();
-                });
-              } else {
-                // failedDialog();
-              }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyStatefulWidget()));
+              Future.delayed(const Duration(milliseconds: 1000), () {
+                successDialog();
+              });
             },
             child: const Text(
               'Sign Up',
