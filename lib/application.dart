@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
                 future: _initializeFirebase(),
                 builder: ((context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    return Login();
+                    return const Login();
                   }
                   return const Center(
                     child: CircularProgressIndicator(),
