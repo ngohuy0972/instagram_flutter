@@ -163,13 +163,17 @@ class _RegisterState extends State<Register> {
               email: _emailController.text,
               password: _passwordController.text,
               context: context);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const MyStatefulWidget()));
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            successDialog();
-          });
+          if (user != null) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MyStatefulWidget()));
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              successDialog();
+            });
+          } else {
+            // failedDialog();
+          }
         },
         child: const Text(
           'Sign Up',
