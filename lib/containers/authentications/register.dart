@@ -201,8 +201,11 @@ class _RegisterState extends State<Register> {
             child: SafeArea(
               child: Form(
                   key: _formKey,
-                  child: Column(
+                  child: ListView(
                     children: <Widget>[
+                      const SizedBox(
+                        height: 100,
+                      ),
                       logoLogin,
                       inputComponent,
                       buttonSubmit,

@@ -27,7 +27,7 @@ class _ProfileState extends State<Profile> {
     var profileCard = [
       Positioned(
           child: Container(
-        height: 150,
+        height: 170,
         width: double.maxFinite,
         decoration: const BoxDecoration(
           color: Colors.black,
@@ -92,7 +92,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 30,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -200,7 +200,7 @@ class _ProfileState extends State<Profile> {
                 ],
               )),
           Expanded(
-            flex: 10,
+            flex: 7,
             child: ProfilePost(),
           )
         ],
