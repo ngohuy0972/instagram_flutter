@@ -51,7 +51,7 @@ class _RegisterState extends State<Register> {
   void failedDialog() {
     const alert = CupertinoAlertDialog(
       title: Text("Register"),
-      content: Text("The account already exists for that email."),
+      content: Text("Register failed."),
     );
     showDialog(
       context: context,
@@ -172,7 +172,7 @@ class _RegisterState extends State<Register> {
               successDialog();
             });
           } else {
-            // failedDialog();
+            failedDialog();
           }
         },
         child: const Text(
@@ -208,6 +208,9 @@ class _RegisterState extends State<Register> {
                       ),
                       logoLogin,
                       inputComponent,
+                      const SizedBox(
+                        height: 50,
+                      ),
                       buttonSubmit,
                     ],
                   )),

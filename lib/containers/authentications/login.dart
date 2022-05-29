@@ -138,7 +138,7 @@ class _LoginState extends State<Login> {
               successDialog();
             });
           } else {
-            // failedDialog();
+            failedDialog();
           }
         },
         child: const Text(
@@ -174,6 +174,9 @@ class _LoginState extends State<Login> {
                       ),
                       logoLogin,
                       inputComponent,
+                      const SizedBox(
+                        height: 50,
+                      ),
                       buttonSubmit,
                     ],
                   )),

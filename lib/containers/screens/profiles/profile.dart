@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:instagram_flutter/containers/camera/pick_media_screen.dart';
 import 'package:instagram_flutter/containers/screens/profiles/profile_post.dart';
 import 'package:instagram_flutter/data/profile_user.dart';
 
@@ -15,10 +16,6 @@ class _ProfileState extends State<Profile> {
   ScrollController controller = ScrollController();
   bool closeTopContainer = false;
   double topContainer = 0;
-
-  Future pickImageGallery() async {
-    await ImagePicker().pickImage(source: ImageSource.gallery);
-  }
 
   List<Widget> itemsProfile = [];
 
@@ -37,7 +34,12 @@ class _ProfileState extends State<Profile> {
           top: 10,
           right: 10,
           child: TextButton(
-            onPressed: () => pickImageGallery(),
+            onPressed: () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PickImageScreen()))
+            },
             child: const CircleAvatar(
               backgroundColor: Colors.white,
               radius: 12.0,
@@ -160,7 +162,13 @@ class _ProfileState extends State<Profile> {
                         child: Container(
                           margin: EdgeInsets.only(),
                           child: TextButton(
-                            onPressed: () => pickImageGallery(),
+                            onPressed: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PickImageScreen()))
+                            },
                             child: const Icon(
                               Icons.camera_alt,
                               size: 15.0,
